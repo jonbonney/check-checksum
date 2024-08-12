@@ -1,24 +1,65 @@
 @echo off
 setlocal
 
-REM Set default values
+REM Default values
 set "algorithm=SHA256"
 set "expected_checksum="
+set "file_path="
 
 REM Parse arguments
-if not "%1"=="" set "file_path=%~1"
-if not "%2"=="" set "expected_checksum=%~2"
-if not "%3"=="" set "algorithm=%~3"
+:parse_args
+if "%~1"=="" goto :args_done
 
+if "%~1"=="--filepath" (
+    set "file_path=%~2"
+    shift
+    shift
+    goto :parse_args
+) else if "%~1"=="-f" (
+    set "file_path=%~2"
+    shift
+    shift
+    goto :parse_args
+) else if "%~1"=="--algorithm" (
+    set "algorithm=%~2"
+    shift
+    shift
+    goto :parse_args
+) else if "%~1"=="-a" (
+    set "algorithm=%~2"
+    shift
+    shift
+    goto :parse_args
+) else if "%~1"=="--expected" (
+    set "expected_checksum=%~2"
+    shift
+    shift
+    goto :parse_args
+) else if "%~1"=="-e" (
+    set "expected_checksum=%~2"
+    shift
+    shift
+    goto :parse_args
+) else (
+    echo Unknown argument: %~1
+    exit /b 1
+)
+
+:args_done
+
+REM Validate the required argument
 if "%file_path%"=="" (
-    echo Usage: check_checksum file_path [expected_checksum] [algorithm]
+    echo Usage: check_checksum --filepath file_path [--expected checksum] [--algorithm algo]
+    echo        or: check_checksum -f file_path [-e checksum] [-a algo]
     goto :EOF
 )
 
+REM Calculate the checksum
 for /f %%i in ('certutil -hashfile "%file_path%" %algorithm% ^| findstr /v /c:"CertUtil"') do set "calculated_checksum=%%i"
 
 echo Computed checksum: %calculated_checksum%
 
+REM Compare if expected checksum is provided
 if not "%expected_checksum%"=="" (
     if /i "%expected_checksum%"=="%calculated_checksum%" (
         echo Checksum matches.
