@@ -5,6 +5,18 @@ REM Default values
 set "algorithm=SHA256"
 set "expected_checksum="
 set "file_path="
+set "show_help=false"
+
+REM Help menu function
+:show_help_menu
+echo Usage: check_checksum --filepath file_path [--expected checksum] [--algorithm algo]
+echo        or: check_checksum -f file_path [-e checksum] [-a algo]
+echo Options:
+echo   --filepath, -f  : Path to the file to check.
+echo   --expected, -e  : Expected checksum to compare against.
+echo   --algorithm, -a : Hashing algorithm to use (e.g., SHA256, SHA1, MD5). Default is SHA256.
+echo   --help, -h      : Display this help menu.
+goto :EOF
 
 REM Parse arguments
 :parse_args
@@ -40,6 +52,14 @@ if "%~1"=="--filepath" (
     shift
     shift
     goto :parse_args
+) else if "%~1"=="--help" (
+    set "show_help=true"
+    shift
+    goto :parse_args
+) else if "%~1"=="-h" (
+    set "show_help=true"
+    shift
+    goto :parse_args
 ) else (
     echo Unknown argument: %~1
     exit /b 1
@@ -47,11 +67,27 @@ if "%~1"=="--filepath" (
 
 :args_done
 
+REM Display help menu if requested
+if "%show_help%"=="true" (
+    if not "%file_path%"=="" (
+        echo Help menu was requested. Do you want to run the command with the provided arguments? [y/n]
+        set /p "confirm=Your choice: "
+        if /i "%confirm%"=="y" (
+            goto :run_command
+        ) else (
+            goto :show_help_menu
+        )
+    ) else (
+        goto :show_help_menu
+    )
+)
+
+:run_command
+
 REM Validate the required argument
 if "%file_path%"=="" (
-    echo Usage: check_checksum --filepath file_path [--expected checksum] [--algorithm algo]
-    echo        or: check_checksum -f file_path [-e checksum] [-a algo]
-    goto :EOF
+    echo Missing required argument: --filepath or -f
+    goto :show_help_menu
 )
 
 REM Calculate the checksum
