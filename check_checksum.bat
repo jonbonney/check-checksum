@@ -6,6 +6,7 @@ set "algorithm=SHA256"
 set "expected_checksum="
 set "file_path="
 set "show_help=false"
+goto :parse_args
 
 REM Help menu function
 :show_help_menu
@@ -55,11 +56,11 @@ if "%~1"=="--filepath" (
 ) else if "%~1"=="--help" (
     set "show_help=true"
     shift
-    goto :parse_args
+    goto :args_done
 ) else if "%~1"=="-h" (
     set "show_help=true"
     shift
-    goto :parse_args
+    goto :args_done
 ) else (
     echo Unknown argument: %~1
     exit /b 1
