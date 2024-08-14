@@ -4,7 +4,7 @@ A cross-platform CLI tool written in Go to compute a file's checksum and compare
 
 ## Overview
 
-The `check-checksum` tool is designed to calculate the checksum of a file using a specified hashing algorithm (e.g., SHA256, SHA1, MD5) and optionally compare the calculated checksum against an expected value. This is useful for verifying file integrity, especially when downloading files from the internet or transferring files between systems.
+The `check-checksum` tool calculates the checksum of a file using a specified hashing algorithm (e.g., SHA256, SHA1, MD5) and optionally compare the calculated checksum against an expected value. This is useful for verifying file integrity, especially when downloading files from the internet or transferring files between systems.
 
 ## Features
 
