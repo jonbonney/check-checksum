@@ -15,6 +15,7 @@ The `check-checksum` tool is designed to calculate the checksum of a file using 
 
 ## Usage
 
+```
 Usage: check_checksum --filepath file_path [--expected checksum] [--algorithm algo]
        or: check_checksum -f file_path [-e checksum] [-a algo]
 Options:
@@ -22,6 +23,7 @@ Options:
 --expected, -e  : Expected checksum to compare against.
 --algorithm, -a : Hashing algorithm to use (e.g., SHA256, SHA1, MD5). Default is SHA256.
 --help, -h      : Display this help menu.
+```
 
 ## Building the Go Source Code
 
@@ -31,22 +33,30 @@ To build the Go source code into a single portable binary that can be used on yo
 
 2. **Clone the Repository**: If you haven't already, clone the repository to your local machine.
 
+```
    git clone https://github.com/yourusername/check-checksum.git
    cd check-checksum
+```
 
 3. **Build the Binary**: Use the `go build` command to compile the Go source code into a single executable binary.
 
+```
    go build -o check_checksum check_checksum.go
+```
 
    This will create an executable file named `check_checksum` (or `check_checksum.exe` on Windows) in the current directory.
 
 4. **Optional - Build for Multiple Platforms**: If you want to build the binary for a different platform or architecture, you can use the `GOOS` and `GOARCH` environment variables. For example, to build a Windows executable on a Unix system:
 
+```
    GOOS=windows GOARCH=amd64 go build -o check_checksum.exe check_checksum.go
+```
 
    Or for Linux:
 
+```
    GOOS=linux GOARCH=amd64 go build -o check_checksum check_checksum.go
+```
 
 ## Setting Up the PATH Variable
 
@@ -56,18 +66,24 @@ To use `check_checksum` as a CLI tool from any location on your system, you can 
 
 1. **Move the Binary**: Move the `check_checksum` binary to a directory that's already in your PATH, or create a new directory for custom binaries.
 
+```
    sudo mv check_checksum /usr/local/bin/
+```
 
 2. **Update PATH (if needed)**: If you moved the binary to a custom directory not in your PATH, add the directory to your PATH by editing your `.bashrc`, `.zshrc`, or `.profile` file.
 
+```
    echo 'export PATH=$PATH:/path/to/your/custom/bin' >> ~/.bashrc
    source ~/.bashrc
+```
 
 ### On Windows
 
 1. **Move the Binary**: Move the `check_checksum.exe` binary to a directory that's already in your PATH, such as `C:\Windows\System32`, or create a new directory for custom binaries.
 
+```
    move check_checksum.exe C:\Windows\System32\
+```
 
 2. **Update PATH (if needed)**: If you moved the binary to a custom directory not in your PATH, add the directory to your PATH:
 
